@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { Shield, FileText, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
 const LAST_UPDATED = "March 13, 2026"
 const APP_NAME = "SEOIQ"
@@ -382,108 +383,113 @@ export default function LegalPage() {
   const searchParams = useSearchParams()
   const defaultTab = searchParams.get("tab") === "terms" ? "terms" : "privacy"
   return (
-    <div className="min-h-screen bg-background pb-20 text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-card">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-4">
-          <div className="flex items-center gap-2.5">
-            <span className="text-xl">◈</span>
-            <span className="text-lg font-semibold tracking-wide">
-              SEO<span className="text-emerald-500">IQ</span>
-            </span>
+    <Suspense fallback={null}>
+      <div className="min-h-screen bg-background pb-20 text-foreground">
+        {/* Header */}
+        <header className="sticky top-0 z-10 border-b bg-card">
+          <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-4">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">◈</span>
+              <span className="text-lg font-semibold tracking-wide">
+                SEO<span className="text-emerald-500">IQ</span>
+              </span>
+            </div>
+            <Button variant="outline" size="sm" asChild>
+              <a href="/">← Back to App</a>
+            </Button>
           </div>
-          <Button variant="outline" size="sm" asChild>
-            <a href="/">← Back to App</a>
-          </Button>
-        </div>
-      </header>
+        </header>
 
-      <div className="mx-auto max-w-3xl space-y-6 px-6 pt-10">
-        {/* Hero */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">Legal</h1>
-          <p className="text-sm text-muted-foreground">
-            Please read these documents carefully before using {APP_NAME}.
+        <div className="mx-auto max-w-3xl space-y-6 px-6 pt-10">
+          {/* Hero */}
+          <div className="space-y-2">
+            <h1 className="text-2xl font-bold tracking-tight">Legal</h1>
+            <p className="text-sm text-muted-foreground">
+              Please read these documents carefully before using {APP_NAME}.
+            </p>
+          </div>
+
+          {/* Tabs */}
+          <Tabs defaultValue={defaultTab}>
+            <TabsList className="w-full sm:w-auto">
+              <TabsTrigger
+                value="privacy"
+                className="gap-2 text-xs tracking-wide"
+              >
+                <Shield className="h-3.5 w-3.5" /> Privacy Policy
+              </TabsTrigger>
+              <TabsTrigger
+                value="terms"
+                className="gap-2 text-xs tracking-wide"
+              >
+                <FileText className="h-3.5 w-3.5" /> Terms of Use
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Privacy Policy */}
+            <TabsContent value="privacy" className="mt-4">
+              <Card>
+                <CardHeader className="pt-6 pb-2">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <CardTitle className="text-base font-bold">
+                        Privacy Policy
+                      </CardTitle>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Last updated: {LAST_UPDATED}
+                      </p>
+                    </div>
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-500 text-xs text-emerald-600"
+                    >
+                      No Data Collected
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <SectionList sections={PrivacySections} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Terms of Use */}
+            <TabsContent value="terms" className="mt-4">
+              <Card>
+                <CardHeader className="pt-6 pb-2">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <CardTitle className="text-base font-bold">
+                        Terms of Use
+                      </CardTitle>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Last updated: {LAST_UPDATED}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      Free Service
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <SectionList sections={TermsSections} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          {/* Footer note */}
+          <p className="pb-4 text-center text-xs text-muted-foreground">
+            {APP_NAME} is a free tool. For questions, contact{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="text-blue-500 underline underline-offset-2"
+            >
+              {CONTACT_EMAIL}
+            </a>
           </p>
         </div>
-
-        {/* Tabs */}
-        <Tabs defaultValue={defaultTab}>
-          <TabsList className="w-full sm:w-auto">
-            <TabsTrigger
-              value="privacy"
-              className="gap-2 text-xs tracking-wide"
-            >
-              <Shield className="h-3.5 w-3.5" /> Privacy Policy
-            </TabsTrigger>
-            <TabsTrigger value="terms" className="gap-2 text-xs tracking-wide">
-              <FileText className="h-3.5 w-3.5" /> Terms of Use
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Privacy Policy */}
-          <TabsContent value="privacy" className="mt-4">
-            <Card>
-              <CardHeader className="pt-6 pb-2">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-base font-bold">
-                      Privacy Policy
-                    </CardTitle>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Last updated: {LAST_UPDATED}
-                    </p>
-                  </div>
-                  <Badge
-                    variant="outline"
-                    className="border-emerald-500 text-xs text-emerald-600"
-                  >
-                    No Data Collected
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <SectionList sections={PrivacySections} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Terms of Use */}
-          <TabsContent value="terms" className="mt-4">
-            <Card>
-              <CardHeader className="pt-6 pb-2">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-base font-bold">
-                      Terms of Use
-                    </CardTitle>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Last updated: {LAST_UPDATED}
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="text-xs">
-                    Free Service
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <SectionList sections={TermsSections} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Footer note */}
-        <p className="pb-4 text-center text-xs text-muted-foreground">
-          {APP_NAME} is a free tool. For questions, contact{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="text-blue-500 underline underline-offset-2"
-          >
-            {CONTACT_EMAIL}
-          </a>
-        </p>
       </div>
-    </div>
+    </Suspense>
   )
 }
