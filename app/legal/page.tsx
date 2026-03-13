@@ -1,13 +1,13 @@
 "use client"
 
+import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Shield, FileText, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useSearchParams } from "next/navigation"
-import { Suspense } from "react"
 
 const LAST_UPDATED = "March 13, 2026"
 const APP_NAME = "SEOIQ"
@@ -24,9 +24,9 @@ const PrivacySections: Section[] = [
     title: "1. Overview",
     content: (
       <p>
-        {APP_NAME} ("we", "our", or "us") is committed to protecting your
-        privacy. This Privacy Policy explains how we handle information when you
-        use our free AI-powered SEO audit tool at{" "}
+        {APP_NAME} (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is
+        committed to protecting your privacy. This Privacy Policy explains how
+        we handle information when you use our free AI-powered SEO audit tool at{" "}
         <a
           href={APP_URL}
           className="text-blue-500 underline underline-offset-2"
@@ -48,8 +48,8 @@ const PrivacySections: Section[] = [
         </p>
         <ul className="list-disc space-y-1.5 pl-5 text-muted-foreground">
           <li>
-            Your Groq API key — it is sent directly from your browser to Groq's
-            servers and never touches our infrastructure.
+            Your Groq API key — it is sent directly from your browser to
+            Groq&apos;s servers and never touches our infrastructure.
           </li>
           <li>The URLs or page content you submit for analysis.</li>
           <li>The SEO audit results generated for your queries.</li>
@@ -104,7 +104,7 @@ const PrivacySections: Section[] = [
             rel="noreferrer"
             className="text-blue-500 underline underline-offset-2"
           >
-            Vercel's Privacy Policy
+            Vercel&apos;s Privacy Policy
           </a>{" "}
           for details.
         </p>
@@ -116,9 +116,9 @@ const PrivacySections: Section[] = [
     content: (
       <p>
         {APP_NAME} does not use cookies or local storage to track you. Any state
-        (such as your entered API key) exists only in your browser's memory for
-        the duration of your session and is discarded when you close or refresh
-        the page.
+        (such as your entered API key) exists only in your browser&apos;s memory
+        for the duration of your session and is discarded when you close or
+        refresh the page.
       </p>
     ),
   },
@@ -155,9 +155,9 @@ const PrivacySections: Section[] = [
     content: (
       <p>
         We may update this Privacy Policy from time to time. Changes will be
-        posted on this page with an updated "Last Updated" date. Continued use
-        of the Service after changes constitutes your acceptance of the revised
-        policy.
+        posted on this page with an updated &quot;Last Updated&quot; date.
+        Continued use of the Service after changes constitutes your acceptance
+        of the revised policy.
       </p>
     ),
   },
@@ -183,7 +183,7 @@ const TermsSections: Section[] = [
     title: "1. Acceptance of Terms",
     content: (
       <p>
-        By accessing or using {APP_NAME} ("the Service") at{" "}
+        By accessing or using {APP_NAME} (&quot;the Service&quot;) at{" "}
         <a
           href={APP_URL}
           className="text-blue-500 underline underline-offset-2"
@@ -202,7 +202,8 @@ const TermsSections: Section[] = [
         {APP_NAME} is a free, browser-based SEO audit tool that uses AI language
         models provided by Groq, Inc. to analyze websites or page content. You
         must supply your own Groq API key to use the Service. The Service is
-        provided "as is" and "as available" without warranties of any kind.
+        provided &quot;as is&quot; and &quot;as available&quot; without
+        warranties of any kind.
       </p>
     ),
   },
@@ -216,8 +217,8 @@ const TermsSections: Section[] = [
           <li>All costs and usage associated with your API key.</li>
           <li>Keeping your API key confidential and secure.</li>
           <li>
-            Complying with Groq's Terms of Use when using their models through
-            this interface.
+            Complying with Groq&apos;s Terms of Use when using their models
+            through this interface.
           </li>
         </ul>
         <p className="text-sm text-muted-foreground">
@@ -271,8 +272,8 @@ const TermsSections: Section[] = [
     content: (
       <div className="space-y-2">
         <p>
-          THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND,
-          EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+          THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY
+          KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
           MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
           NON-INFRINGEMENT.
         </p>
@@ -303,10 +304,10 @@ const TermsSections: Section[] = [
     title: "8. Third-Party Links & Services",
     content: (
       <p>
-        The Service relies on Groq's API and may contain links to third-party
-        websites. We are not responsible for the content, privacy practices, or
-        terms of any third-party services. Your use of third-party services is
-        governed by their respective terms and policies.
+        The Service relies on Groq&apos;s API and may contain links to
+        third-party websites. We are not responsible for the content, privacy
+        practices, or terms of any third-party services. Your use of third-party
+        services is governed by their respective terms and policies.
       </p>
     ),
   },
@@ -338,9 +339,9 @@ const TermsSections: Section[] = [
     content: (
       <p>
         We reserve the right to update these Terms at any time. Updated Terms
-        will be posted on this page with a revised "Last Updated" date. Your
-        continued use of the Service after any changes constitutes your
-        acceptance of the new Terms.
+        will be posted on this page with a revised &quot;Last Updated&quot;
+        date. Your continued use of the Service after any changes constitutes
+        your acceptance of the new Terms.
       </p>
     ),
   },
@@ -379,117 +380,131 @@ const SectionList = ({ sections }: { sections: Section[] }) => (
   </div>
 )
 
-export default function LegalPage() {
+// ── Inner component that uses useSearchParams ─────────────────────────────────
+
+function LegalContent() {
   const searchParams = useSearchParams()
   const defaultTab = searchParams.get("tab") === "terms" ? "terms" : "privacy"
+
   return (
-    <Suspense fallback={null}>
-      <div className="min-h-screen bg-background pb-20 text-foreground">
-        {/* Header */}
-        <header className="sticky top-0 z-10 border-b bg-card">
-          <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-4">
-            <div className="flex items-center gap-2.5">
-              <span className="text-xl">◈</span>
-              <span className="text-lg font-semibold tracking-wide">
-                SEO<span className="text-emerald-500">IQ</span>
-              </span>
-            </div>
-            <Button variant="outline" size="sm" asChild>
-              <a href="/">← Back to App</a>
-            </Button>
+    <div className="min-h-screen bg-background pb-20 text-foreground">
+      {/* Header */}
+      <header className="sticky top-0 z-10 border-b bg-card">
+        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-6 py-4">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xl">◈</span>
+            <span className="text-lg font-semibold tracking-wide">
+              SEO<span className="text-emerald-500">IQ</span>
+            </span>
           </div>
-        </header>
+          <Button variant="outline" size="sm" asChild>
+            <a href="/">← Back to App</a>
+          </Button>
+        </div>
+      </header>
 
-        <div className="mx-auto max-w-3xl space-y-6 px-6 pt-10">
-          {/* Hero */}
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight">Legal</h1>
-            <p className="text-sm text-muted-foreground">
-              Please read these documents carefully before using {APP_NAME}.
-            </p>
-          </div>
-
-          {/* Tabs */}
-          <Tabs defaultValue={defaultTab}>
-            <TabsList className="w-full sm:w-auto">
-              <TabsTrigger
-                value="privacy"
-                className="gap-2 text-xs tracking-wide"
-              >
-                <Shield className="h-3.5 w-3.5" /> Privacy Policy
-              </TabsTrigger>
-              <TabsTrigger
-                value="terms"
-                className="gap-2 text-xs tracking-wide"
-              >
-                <FileText className="h-3.5 w-3.5" /> Terms of Use
-              </TabsTrigger>
-            </TabsList>
-
-            {/* Privacy Policy */}
-            <TabsContent value="privacy" className="mt-4">
-              <Card>
-                <CardHeader className="pt-6 pb-2">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <CardTitle className="text-base font-bold">
-                        Privacy Policy
-                      </CardTitle>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Last updated: {LAST_UPDATED}
-                      </p>
-                    </div>
-                    <Badge
-                      variant="outline"
-                      className="border-emerald-500 text-xs text-emerald-600"
-                    >
-                      No Data Collected
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <SectionList sections={PrivacySections} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Terms of Use */}
-            <TabsContent value="terms" className="mt-4">
-              <Card>
-                <CardHeader className="pt-6 pb-2">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <CardTitle className="text-base font-bold">
-                        Terms of Use
-                      </CardTitle>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Last updated: {LAST_UPDATED}
-                      </p>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      Free Service
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <SectionList sections={TermsSections} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-
-          {/* Footer note */}
-          <p className="pb-4 text-center text-xs text-muted-foreground">
-            {APP_NAME} is a free tool. For questions, contact{" "}
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="text-blue-500 underline underline-offset-2"
-            >
-              {CONTACT_EMAIL}
-            </a>
+      <div className="mx-auto max-w-3xl space-y-6 px-6 pt-10">
+        {/* Hero */}
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold tracking-tight">Legal</h1>
+          <p className="text-sm text-muted-foreground">
+            Please read these documents carefully before using {APP_NAME}.
           </p>
         </div>
+
+        {/* Tabs — defaultValue driven by ?tab= query param */}
+        <Tabs defaultValue={defaultTab}>
+          <TabsList className="w-full sm:w-auto">
+            <TabsTrigger
+              value="privacy"
+              className="gap-2 text-xs tracking-wide"
+            >
+              <Shield className="h-3.5 w-3.5" /> Privacy Policy
+            </TabsTrigger>
+            <TabsTrigger value="terms" className="gap-2 text-xs tracking-wide">
+              <FileText className="h-3.5 w-3.5" /> Terms of Use
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Privacy Policy */}
+          <TabsContent value="privacy" className="mt-4">
+            <Card>
+              <CardHeader className="pt-6 pb-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <CardTitle className="text-base font-bold">
+                      Privacy Policy
+                    </CardTitle>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Last updated: {LAST_UPDATED}
+                    </p>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="border-emerald-500 text-xs text-emerald-600"
+                  >
+                    No Data Collected
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <SectionList sections={PrivacySections} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Terms of Use */}
+          <TabsContent value="terms" className="mt-4">
+            <Card>
+              <CardHeader className="pt-6 pb-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <CardTitle className="text-base font-bold">
+                      Terms of Use
+                    </CardTitle>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Last updated: {LAST_UPDATED}
+                    </p>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    Free Service
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <SectionList sections={TermsSections} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        {/* Footer note */}
+        <p className="pb-4 text-center text-xs text-muted-foreground">
+          {APP_NAME} is a free tool. For questions, contact{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="text-blue-500 underline underline-offset-2"
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </p>
       </div>
+    </div>
+  )
+}
+
+// ── Page export wrapped in Suspense ───────────────────────────────────────────
+
+export default function LegalPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-background">
+          <div className="animate-spin text-4xl text-emerald-500">◈</div>
+        </div>
+      }
+    >
+      <LegalContent />
     </Suspense>
   )
 }
