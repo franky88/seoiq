@@ -233,7 +233,6 @@ const IssueCard = ({ issue, index }: { issue: Issue; index: number }) => {
             </div>
           </CardContent>
         </CollapsibleTrigger>
-
         <CollapsibleContent>
           <div className="px-4 pb-4">
             <Separator className="mb-3" />
@@ -341,12 +340,10 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
           }),
         }
       )
-
       if (!res.ok) {
         const err = (await res.json()) as { error?: { message?: string } }
         throw new Error(err?.error?.message ?? `HTTP ${res.status}`)
       }
-
       setStep("Parsing results...")
       const data = (await res.json()) as {
         choices: Array<{ message: { content: string } }>
@@ -368,7 +365,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
 
   const filtered =
     result?.issues?.filter((i) => filter === "all" || i.type === filter) ?? []
-
   const counts: Record<FilterType, number> = {
     all: result?.issues?.length ?? 0,
     critical: result?.issues?.filter((i) => i.type === "critical").length ?? 0,
@@ -378,7 +374,7 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20 text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* ── Top bar ── */}
       <header className="sticky top-0 z-10 border-b bg-card">
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-6 py-4">
@@ -411,8 +407,9 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
         </div>
       </header>
 
-      <div className="mx-auto max-w-4xl space-y-4 px-6 pt-7">
-        {/* ── API Key + Model ── */}
+      {/* ── Main content ── */}
+      <main className="mx-auto w-full max-w-4xl flex-1 space-y-4 px-6 py-7">
+        {/* API Key + Model */}
         <Card>
           <CardContent className="pt-5 pb-5">
             <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-[1fr_auto]">
@@ -447,7 +444,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                   </Button>
                 </div>
               </div>
-
               <div className="space-y-1.5">
                 <Label className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
                   Model
@@ -477,7 +473,7 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
           </CardContent>
         </Card>
 
-        {/* ── URL / Content input ── */}
+        {/* URL / Content input */}
         <Card>
           <CardContent className="space-y-4 pt-5 pb-5">
             <div className="flex gap-2">
@@ -493,7 +489,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                 </Button>
               ))}
             </div>
-
             {inputMode === "url" ? (
               <div className="flex gap-2">
                 <Input
@@ -543,7 +538,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                 </Button>
               </div>
             )}
-
             {error && (
               <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4" />
@@ -553,7 +547,7 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
           </CardContent>
         </Card>
 
-        {/* ── Loading ── */}
+        {/* Loading */}
         {loading && (
           <div className="space-y-4 py-16 text-center">
             <div className="inline-block animate-spin text-4xl text-emerald-500">
@@ -575,10 +569,9 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
           </div>
         )}
 
-        {/* ── Results ── */}
+        {/* Results */}
         {result && !loading && (
           <div className="animate-in space-y-4 duration-500 fade-in slide-in-from-bottom-4">
-            {/* Score + Summary */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-[152px_1fr]">
               <Card>
                 <CardContent className="flex flex-col items-center gap-3 pt-5">
@@ -599,7 +592,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                   </Badge>
                 </CardContent>
               </Card>
-
               <Card>
                 <CardHeader className="pt-5 pb-2">
                   <CardTitle className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
@@ -626,7 +618,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
               </Card>
             </div>
 
-            {/* Category Scores */}
             <Card>
               <CardHeader className="pt-5 pb-2">
                 <CardTitle className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
@@ -664,7 +655,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
               </CardContent>
             </Card>
 
-            {/* Tabs */}
             <Tabs defaultValue="issues">
               <TabsList className="w-full sm:w-auto">
                 <TabsTrigger value="issues" className="text-xs tracking-wide">
@@ -681,7 +671,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                 </TabsTrigger>
               </TabsList>
 
-              {/* Issues */}
               <TabsContent value="issues" className="mt-4 space-y-3">
                 <div className="flex flex-wrap gap-2">
                   {(
@@ -715,7 +704,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                 )}
               </TabsContent>
 
-              {/* Quick Wins */}
               <TabsContent value="quickwins" className="mt-4">
                 <Card>
                   <CardHeader className="pt-5 pb-2">
@@ -741,7 +729,6 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
                 </Card>
               </TabsContent>
 
-              {/* Insights */}
               <TabsContent value="insights" className="mt-4">
                 <Card>
                   <CardHeader className="pt-5 pb-2">
@@ -760,7 +747,7 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
           </div>
         )}
 
-        {/* ── Empty state ── */}
+        {/* Empty state */}
         {!result && !loading && (
           <div className="space-y-3 py-16 text-center text-muted-foreground/30">
             <div className="text-5xl">◈</div>
@@ -772,7 +759,47 @@ Return ONLY valid raw JSON — no markdown fences, no extra text before or after
             </p>
           </div>
         )}
-      </div>
+      </main>
+
+      {/* ── Footer ── */}
+      <footer className="border-t bg-card">
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row">
+          {/* Branding */}
+          <div className="flex items-center gap-2 text-muted-foreground/50">
+            <span className="text-sm">◈</span>
+            <span className="text-xs tracking-wide">
+              SEO<span className="text-emerald-500/60">IQ</span>
+            </span>
+            <span className="text-xs">· Free AI SEO Audit Tool</span>
+          </div>
+
+          {/* Links */}
+          <nav className="flex items-center gap-0.5 text-xs text-muted-foreground/60">
+            <a
+              href="/legal?tab=privacy"
+              className="rounded px-2.5 py-1 transition-colors hover:bg-muted hover:text-muted-foreground"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-muted-foreground/30 select-none">·</span>
+            <a
+              href="/legal?tab=terms"
+              className="rounded px-2.5 py-1 transition-colors hover:bg-muted hover:text-muted-foreground"
+            >
+              Terms of Use
+            </a>
+            <span className="text-muted-foreground/30 select-none">·</span>
+            <a
+              href="https://console.groq.com/keys"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded px-2.5 py-1 transition-colors hover:bg-muted hover:text-muted-foreground"
+            >
+              Groq Console <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+          </nav>
+        </div>
+      </footer>
     </div>
   )
 }
