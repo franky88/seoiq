@@ -324,7 +324,9 @@ export default async function DashboardPage() {
                     <div className="mt-0.5 flex items-center gap-2">
                       <Clock className="h-3 w-3 text-muted-foreground/50" />
                       <span className="text-[10px] text-muted-foreground">
-                        {formatRelative(audit.created_at)}
+                        {audit.created_at
+                          ? formatRelative(audit.created_at)
+                          : "—"}
                       </span>
                     </div>
                   </div>

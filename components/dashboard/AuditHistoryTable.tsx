@@ -29,7 +29,7 @@ interface Audit {
   mode: string
   score: number
   model: string
-  created_at: string
+  created_at: string | null
 }
 
 interface AuditHistoryTableProps {
@@ -163,7 +163,7 @@ export function AuditHistoryTable({ audits, isPro }: AuditHistoryTableProps) {
 
             {/* Date */}
             <div className="shrink-0 text-[10px] whitespace-nowrap text-muted-foreground">
-              {formatDate(audit.created_at)}
+              {audit.created_at ? formatDate(audit.created_at) : "—"}
             </div>
 
             {/* Actions */}
@@ -223,7 +223,7 @@ export function AuditHistoryTable({ audits, isPro }: AuditHistoryTableProps) {
                   title="Pro feature — upgrade to delete audits"
                   asChild
                 >
-                  <Link href="/settings#billing">
+                  <Link href="/dashboard/settings#billing">
                     <Lock className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
