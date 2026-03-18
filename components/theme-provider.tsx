@@ -47,7 +47,8 @@ function ThemeHotkey() {
         return
       }
 
-      if (event.key.toLowerCase() !== "d") {
+      // Guard: event.key can be undefined for synthetic/IME events
+      if (!event.key || event.key.toLowerCase() !== "d") {
         return
       }
 

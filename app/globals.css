@@ -4,125 +4,336 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SEOIQ Design Tokens
+   ─ Light mode is default (professional / Semrush-style)
+   ─ Dark mode via .dark class (ThemeProvider toggle)
+   ─ All component colors reference these tokens — never hardcode hex
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.809 0.105 251.813);
-    --chart-2: oklch(0.623 0.214 259.815);
-    --chart-3: oklch(0.546 0.245 262.881);
-    --chart-4: oklch(0.488 0.243 264.376);
-    --chart-5: oklch(0.424 0.199 265.638);
-    --radius: 0.875rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  /* ── Shadcn/ui semantic tokens — LIGHT MODE ────────────────────────────── */
+  /* Professional white/slate palette matching enterprise SaaS aesthetics    */
+
+  --background: #ffffff;
+  --foreground: #0f1117;
+
+  --card: #ffffff;
+  --card-foreground: #0f1117;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f1117;
+
+  --primary: #0fa968; /* SEOIQ brand green — CTAs, links    */
+  --primary-foreground: #ffffff;
+
+  --secondary: #f4f6f8; /* Subtle surface tint                */
+  --secondary-foreground: #0f1117;
+
+  --muted: #f4f6f8; /* Muted backgrounds, empty states    */
+  --muted-foreground: #6b7280; /* Placeholder, caption, label text   */
+
+  --accent: #f0fdf6; /* Green-tinted accent surface        */
+  --accent-foreground: #0fa968;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e5e7eb; /* Dividers, card borders             */
+  --input: #e5e7eb; /* Input borders                      */
+  --ring: #0fa968; /* Focus ring — brand green           */
+
+  --chart-1: #0fa968;
+  --chart-2: #3b82f6;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #8b5cf6;
+
+  --radius: 0.5rem; /* Tighter radius — more enterprise   */
+
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f1117;
+  --sidebar-primary: #0fa968;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f6f8;
+  --sidebar-accent-foreground: #0f1117;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #0fa968;
+
+  /* ── SEOIQ Brand Colors ─────────────────────────────────────────────────── */
+
+  /* Primary palette */
+  --seoiq-green: #0fa968; /* Brand green — primary CTA          */
+  --seoiq-green-dark: #087a47; /* Hover / pressed state              */
+  --seoiq-green-mid: #16c079; /* Lighter hover for ghost buttons    */
+  --seoiq-green-tint: #f0fdf6; /* Very light green surface           */
+  --seoiq-green-subtle: #d1fae5; /* Badge backgrounds, highlights      */
+  --seoiq-charcoal: #0f1117; /* Near-black — headlines             */
+
+  /* Neutrals — light mode */
+  --seoiq-slate: #6b7280; /* Body / caption text                */
+  --seoiq-slate-mid: #9ca3af; /* Placeholder text                   */
+  --seoiq-gray-light: #f4f6f8; /* Page background tint               */
+  --seoiq-gray-mid: #e5e7eb; /* Card borders, dividers             */
+  --seoiq-border: #e5e7eb;
+
+  /* Light UI surfaces */
+  --seoiq-bg: #f4f6f8; /* Page background                    */
+  --seoiq-surface: #ffffff; /* Card / panel                       */
+  --seoiq-surface-raised: #f9fafb; /* Hover row, raised panel            */
+  --seoiq-surface-active: #f0fdf6; /* Selected / active state            */
+  --seoiq-border-subtle: #e5e7eb; /* Subtle divider                     */
+  --seoiq-border-medium: #d1d5db; /* Button outlines, input borders     */
+
+  /* Text hierarchy — light mode */
+  --seoiq-text-dim: #9ca3af; /* Dimmed / disabled                  */
+  --seoiq-text-muted: #6b7280; /* Labels, captions                   */
+  --seoiq-text-body: #374151; /* Standard body text                 */
+  --seoiq-text-secondary: #1f2937; /* Secondary headings                 */
+  --seoiq-text-primary: #0f1117; /* Primary headings, strong text      */
+
+  /* Accent colors */
+  --seoiq-purple: #7c3aed; /* AI / intelligence motifs           */
+  --seoiq-orange: #f97316; /* Warnings, alerts                   */
+  --seoiq-blue: #3b82f6; /* Info, links                        */
+
+  /* ── Score band colors (same in both modes) ─────────────────────────────── */
+  --seoiq-score-critical: #ef4444; /* 0–39   Critical                    */
+  --seoiq-score-warning: #f97316; /* 40–69  Warning                     */
+  --seoiq-score-good: #eab308; /* 70–84  Good                        */
+  --seoiq-score-excellent: #0fa968; /* 85–100 Excellent                   */
+
+  /* ── Issue type colors ───────────────────────────────────────────────────── */
+  --seoiq-critical: #ef4444;
+  --seoiq-warning: #f59e0b;
+  --seoiq-good: #10b981;
+  --seoiq-info: #3b82f6;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DARK MODE — deep navy professional, not pitch black
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.809 0.105 251.813);
-    --chart-2: oklch(0.623 0.214 259.815);
-    --chart-3: oklch(0.546 0.245 262.881);
-    --chart-4: oklch(0.488 0.243 264.376);
-    --chart-5: oklch(0.424 0.199 265.638);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  /* ── Shadcn/ui semantic tokens — DARK MODE ─────────────────────────────── */
+
+  --background: #0d1117;
+  --foreground: #e6edf3;
+
+  --card: #161b22;
+  --card-foreground: #e6edf3;
+
+  --popover: #161b22;
+  --popover-foreground: #e6edf3;
+
+  --primary: #0fa968;
+  --primary-foreground: #0d1117;
+
+  --secondary: #21262d;
+  --secondary-foreground: #e6edf3;
+
+  --muted: #21262d;
+  --muted-foreground: #6b7280;
+
+  --accent: #1a2b1f;
+  --accent-foreground: #3dd68c;
+
+  --destructive: #f85149;
+  --destructive-foreground: #ffffff;
+
+  --border: #30363d;
+  --input: #21262d;
+  --ring: #0fa968;
+
+  --chart-1: #3dd68c;
+  --chart-2: #58a6ff;
+  --chart-3: #f0b429;
+  --chart-4: #f85149;
+  --chart-5: #bc8cff;
+
+  --sidebar: #161b22;
+  --sidebar-foreground: #e6edf3;
+  --sidebar-primary: #0fa968;
+  --sidebar-primary-foreground: #0d1117;
+  --sidebar-accent: #21262d;
+  --sidebar-accent-foreground: #e6edf3;
+  --sidebar-border: #30363d;
+  --sidebar-ring: #0fa968;
+
+  /* ── SEOIQ surface tokens — dark mode overrides ─────────────────────────── */
+
+  --seoiq-bg: #0d1117;
+  --seoiq-surface: #161b22;
+  --seoiq-surface-raised: #1c2128;
+  --seoiq-surface-active: #1a2b1f;
+  --seoiq-border-subtle: #30363d;
+  --seoiq-border-medium: #484f58;
+
+  --seoiq-text-dim: #484f58;
+  --seoiq-text-muted: #6b7280;
+  --seoiq-text-body: #8d96a0;
+  --seoiq-text-secondary: #cdd9e5;
+  --seoiq-text-primary: #e6edf3;
+
+  --seoiq-green-tint: #1a2b1f;
+  --seoiq-green-subtle: #1a3a28;
+  --seoiq-gray-light: #21262d;
+  --seoiq-gray-mid: #30363d;
+
+  /* Issue type colors — slightly brighter in dark */
+  --seoiq-critical: #f85149;
+  --seoiq-warning: #f0b429;
+  --seoiq-good: #3dd68c;
+  --seoiq-info: #58a6ff;
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TAILWIND THEME — registers all tokens as utility classes
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 @theme inline {
-    --font-sans: var(--font-sans);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  /* Shadcn/ui tokens */
+  --font-sans: var(--font-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius scale */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ── SEOIQ utilities ────────────────────────────────────────────────────────
+     Usage: bg-seoiq-green  text-seoiq-green  border-seoiq-green
+            bg-seoiq-surface  text-seoiq-text-primary  border-seoiq-border-subtle
+            text-seoiq-score-excellent  text-seoiq-critical
+     ────────────────────────────────────────────────────────────────────────── */
+
+  /* Brand */
+  --color-seoiq-green: var(--seoiq-green);
+  --color-seoiq-green-dark: var(--seoiq-green-dark);
+  --color-seoiq-green-mid: var(--seoiq-green-mid);
+  --color-seoiq-green-tint: var(--seoiq-green-tint);
+  --color-seoiq-green-subtle: var(--seoiq-green-subtle);
+  --color-seoiq-charcoal: var(--seoiq-charcoal);
+
+  /* Neutrals */
+  --color-seoiq-slate: var(--seoiq-slate);
+  --color-seoiq-slate-mid: var(--seoiq-slate-mid);
+  --color-seoiq-gray-light: var(--seoiq-gray-light);
+  --color-seoiq-gray-mid: var(--seoiq-gray-mid);
+  --color-seoiq-border: var(--seoiq-border);
+
+  /* Accents */
+  --color-seoiq-purple: var(--seoiq-purple);
+  --color-seoiq-orange: var(--seoiq-orange);
+  --color-seoiq-blue: var(--seoiq-blue);
+
+  /* Surfaces */
+  --color-seoiq-bg: var(--seoiq-bg);
+  --color-seoiq-surface: var(--seoiq-surface);
+  --color-seoiq-surface-raised: var(--seoiq-surface-raised);
+  --color-seoiq-surface-active: var(--seoiq-surface-active);
+  --color-seoiq-border-subtle: var(--seoiq-border-subtle);
+  --color-seoiq-border-medium: var(--seoiq-border-medium);
+
+  /* Text */
+  --color-seoiq-text-dim: var(--seoiq-text-dim);
+  --color-seoiq-text-muted: var(--seoiq-text-muted);
+  --color-seoiq-text-body: var(--seoiq-text-body);
+  --color-seoiq-text-secondary: var(--seoiq-text-secondary);
+  --color-seoiq-text-primary: var(--seoiq-text-primary);
+
+  /* Score bands */
+  --color-seoiq-score-critical: var(--seoiq-score-critical);
+  --color-seoiq-score-warning: var(--seoiq-score-warning);
+  --color-seoiq-score-good: var(--seoiq-score-good);
+  --color-seoiq-score-excellent: var(--seoiq-score-excellent);
+
+  /* Issue types */
+  --color-seoiq-critical: var(--seoiq-critical);
+  --color-seoiq-warning: var(--seoiq-warning);
+  --color-seoiq-good: var(--seoiq-good);
+  --color-seoiq-info: var(--seoiq-info);
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BASE STYLES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
+
   body {
-    @apply bg-background text-foreground;
-    }
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
   html {
     @apply font-sans;
-    }
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Tighter heading tracking — more enterprise, less playful */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight;
+  }
+
+  /* Scrollbar — professional minimal */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
 }
