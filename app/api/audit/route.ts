@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import Groq from "groq-sdk"
 import { buildSEOPrompt } from "@/lib/prompts"
 import type { SEOResult } from "@/types/audit"
+import { Json } from "@/types/supabase"
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -79,7 +80,7 @@ export async function POST(req: NextRequest) {
     const clean = raw.replace(/```json|```/g, "").trim()
     const result = JSON.parse(
       clean.substring(clean.indexOf("{"), clean.lastIndexOf("}") + 1)
-    ) as SEOResult
+    ) as unknown as SEOResult
 
     const { data: audit } = await supabase
       .from("audits")
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
         url: url ?? null,
         mode,
         model: model ?? "llama-3.3-70b-versatile",
-        result,
+        result: result as unknown as Json,
         score: result.score,
       })
       .select()
