@@ -759,7 +759,7 @@ export default function LandingPage() {
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="rounded-xl border border-seoiq-border-subtle bg-seoiq-surface px-5 data-[state=open]:border-seoiq-green/30 data-[state=open]:bg-seoiq-green/5"
+                className="rounded-xl border-seoiq-border-subtle bg-seoiq-surface px-5 data-[state=open]:border-seoiq-green/30 data-[state=open]:bg-seoiq-green/5"
               >
                 <AccordionTrigger className="py-4 text-left text-sm font-semibold text-foreground hover:no-underline">
                   {faq.q}

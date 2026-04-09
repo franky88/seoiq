@@ -13,6 +13,43 @@ const PLAN_LIMITS: Record<string, number> = {
   agency: Infinity,
 }
 
+// --- Gemini fallback via REST ---
+async function runGemini(prompt: string): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) throw new Error("GEMINI_API_KEY not set")
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 4096,
+        },
+      }),
+    }
+  )
+
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`Gemini API error: ${err}`)
+  }
+
+  const data = await res.json()
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? ""
+}
+
+// --- Parse raw LLM output to SEOResult ---
+function parseResult(raw: string): SEOResult {
+  const clean = raw.replace(/```json|```/g, "").trim()
+  return JSON.parse(
+    clean.substring(clean.indexOf("{"), clean.lastIndexOf("}") + 1)
+  ) as unknown as SEOResult
+}
+
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
 
@@ -69,18 +106,28 @@ export async function POST(req: NextRequest) {
   try {
     const prompt = buildSEOPrompt({ url, content, mode })
 
-    const completion = await groq.chat.completions.create({
-      model: model ?? "llama-3.3-70b-versatile",
-      max_tokens: 4096,
-      temperature: 0.3,
-      messages: [{ role: "user", content: prompt }],
-    })
+    let raw = ""
+    let usedModel = model ?? "llama-3.3-70b-versatile"
+    let provider: "groq" | "gemini" = "groq"
 
-    const raw = completion.choices[0]?.message?.content ?? ""
-    const clean = raw.replace(/```json|```/g, "").trim()
-    const result = JSON.parse(
-      clean.substring(clean.indexOf("{"), clean.lastIndexOf("}") + 1)
-    ) as unknown as SEOResult
+    // 1. Try Groq first
+    try {
+      const completion = await groq.chat.completions.create({
+        model: usedModel,
+        max_tokens: 4096,
+        temperature: 0.3,
+        messages: [{ role: "user", content: prompt }],
+      })
+      raw = completion.choices[0]?.message?.content ?? ""
+    } catch (groqError) {
+      // 2. Groq failed — fall back to Gemini
+      console.warn("Groq failed, falling back to Gemini:", groqError)
+      raw = await runGemini(prompt)
+      usedModel = "gemini-2.5-flash-lite"
+      provider = "gemini"
+    }
+
+    const result = parseResult(raw)
 
     const { data: audit } = await supabase
       .from("audits")
@@ -88,14 +135,14 @@ export async function POST(req: NextRequest) {
         user_id: user.id,
         url: url ?? null,
         mode,
-        model: model ?? "llama-3.3-70b-versatile",
+        model: usedModel,
         result: result as unknown as Json,
         score: result.score,
       })
       .select()
       .single()
 
-    return NextResponse.json({ audit })
+    return NextResponse.json({ audit, provider })
   } catch (e) {
     console.error("Audit error:", e)
     return NextResponse.json({ error: "Audit failed" }, { status: 500 })
